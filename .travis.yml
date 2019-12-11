@@ -4,7 +4,23 @@ solution: FoodTracker.WebApi.sln
 mono: none
 dotnet: 3.0.101
 
+addons:
+  sonarcloud:
+    organization: zanuccod
+    token:
+      secure: YRAfmpR1IpDCgxOaoPP03UjAqHT1ZHrklB8TWOFQRZc/sm8jd9zRekj2hzY45dJgseT8obqlfD9umn4snzRpe7vyLJ2xspHzxQiG+/0BKp1rbtlgDySdVT53b7qQZcu8G+4oaRRc+kqbicofAGga51Cam7yA3M2V6AJ+hRtznKGTXVf7o81d1x/I2DpDlA8kzrxfbO2ndhP4rF5p8c1QJjXAbBlzYBBJwwYcq985M5YrLITJ2TlXqZi0W9zM+0ehwN/7eCUoIDtKqdMa2LHwnqO+f4lsd7WFUg8zAxkdUd7adzHee6rmJZkLNvxlTUOC4STlRBD+VP7qtSWljF7GhpCXIA3p6dSujrB8CjDAPwfF0BzFijGnO0gFw6ETBN6BeeVWAMY/khgRAtfEeEsbshHP8Nn7wcG6fF+TXcnYsW+12zz28sr/PXu6UEFS9QoHRh/CQVwVa31f1y2hhn88ntjOCU8sJyeyW1O6Erlk5+338TL2m9FiZZE2OjHr2sca9qAvwYjLiEH2DVbnqGPFDc6Jc5xxJ5k8fsllVRAbXjyootdNTiBpQX5IiW8E3B5toUI83LSNn8PIomURVRV9xgltOyXExLTQznC+EUcelCp4HIQhCejHEt7QjTDDaykdb18PWixcficg9sVKja8mntYqopYFjt5FPK67/J4m3I0=
+
+install:
+  - dotnet tool install --global dotnet-sonarscanner
+  - dotnet tool install --global coveralls.net
+ 
+ before_script:
+  - export PATH="$PATH:$HOME/.dotnet/tools"
+
 script:
   - dotnet restore
+  - dotnet sonarscanner begin /k:"zanuccod_FoodTracker.WebApi" /d:sonar.cs.opencover.reportsPaths="./TestResults/TestResult.xml"
   - dotnet build FoodTracker.WebApi.sln
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../../TestResults/TestResult.xml
+  - dotnet sonarscanner end 
+
