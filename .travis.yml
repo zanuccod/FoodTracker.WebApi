@@ -1,0 +1,10 @@
+﻿language: csharp
+solution: FoodTracker.WebApi.sln
+
+mono: none
+dotnet: 3.0.101
+
+script:
+  - dotnet restore
+  - dotnet build FoodTracker.WebApi.sln
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test
