@@ -19,7 +19,5 @@ install:
 
 script:
   - dotnet restore
-  - dotnet sonarscanner begin /k:"zanuccod_FoodTrackerWebApi" /d:sonar.cs.opencover.reportsPaths="./TestResults/TestResult.xml"
   - dotnet build FoodTracker.WebApi.sln
   - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test
-  - dotnet sonarscanner end 
