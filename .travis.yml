@@ -13,6 +13,9 @@ addons:
 install:
   - dotnet tool install --global dotnet-sonarscanner
   - dotnet tool install --global coveralls.net
+ 
+before_script:
+  - export PATH="$PATH:$HOME/.dotnet/tools"
 
 script:
   - dotnet restore
