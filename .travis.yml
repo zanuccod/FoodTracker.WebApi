@@ -19,5 +19,7 @@ before_script:
 
 script:
   - dotnet restore
+  - dotnet sonarscanner begin /k:"zanuccod_FoodTracker.WebApi" /d:sonar.cs.opencover.reportsPaths="./TestResults/TestResult.xml"
   - dotnet build FoodTracker.WebApi.sln
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../TestResults/TestResult.xml
+  - dotnet sonarscanner end 
