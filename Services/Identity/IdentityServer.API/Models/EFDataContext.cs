@@ -56,7 +56,7 @@ namespace IdentityServer.API.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (optionsBuilder != null && optionsBuilder.IsConfigured == false)
+            if (optionsBuilder != null && !optionsBuilder.IsConfigured)
             {
                 // create data directory to store database file if not exist
                 var dataDirPath = Path.Combine(Directory.GetCurrentDirectory(), "Data");

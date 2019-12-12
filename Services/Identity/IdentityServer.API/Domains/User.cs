@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace IdentityServer.API.Domains
 {
-    public class User : IEquatable<User>
+    public sealed class User : IEquatable<User>
     {
         [JsonProperty("username")]
         [Key]

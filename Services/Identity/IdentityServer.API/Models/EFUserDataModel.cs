@@ -37,17 +37,17 @@ namespace IdentityServer.API.Models
             return await db.Users.FindAsync(username).ConfigureAwait(true);
         }
 
-        public async Task InsertUser(User obj)
+        public async Task InsertUser(User item)
         {
             using var db = new EFDataContext(options);
-            await db.Users.AddAsync(obj);
+            await db.Users.AddAsync(item);
             await db.SaveChangesAsync().ConfigureAwait(true);
         }
 
-        public async Task UpdateUser(User obj)
+        public async Task UpdateUser(User item)
         {
             using var db = new EFDataContext(options);
-            db.Users.Update(obj);
+            db.Users.Update(item);
             await db.SaveChangesAsync().ConfigureAwait(true);
         }
 
