@@ -15,14 +15,17 @@ namespace IdentityServer.API.Test.Controllers
         private IUserDataModel userDataModel;
         private AccountController controller;
 
-        [Test]
-        public async Task RegisterUser_NullUser_ShouldReturnBadRequest()
+        [SetUp]
+        public void BeforeEachTest()
         {
-            // Arrange
             mockUserDataModel = new Mock<IUserDataModel>();
             userDataModel = mockUserDataModel.Object;
             controller = new AccountController(userDataModel);
+        }
 
+        [Test]
+        public async Task RegisterUser_NullUser_ShouldReturnBadRequest()
+        {
             // Act
             var result = await controller.RegisterUser(null);
 
@@ -34,10 +37,6 @@ namespace IdentityServer.API.Test.Controllers
         public async Task RegisterUser_AlreadyExistUser_ShouldReturnConflict()
         {
             // Arrange
-            mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
-
             // moq data model to return an already existing user
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult(new User()));
 
@@ -52,10 +51,6 @@ namespace IdentityServer.API.Test.Controllers
         public async Task RegisterUser_NewUser_ShouldReturnOk()
         {
             // Arrange
-            mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
-
             // moq data model to return an already existing user
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
 
@@ -69,11 +64,6 @@ namespace IdentityServer.API.Test.Controllers
         [Test]
         public async Task DeleteUser_NullUser_ShouldReturnBadRequest()
         {
-            // Arrange
-            mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
-
             // Act
             var result = await controller.DeleteUser(null);
 
@@ -85,10 +75,6 @@ namespace IdentityServer.API.Test.Controllers
         public async Task DeleteUser_UserNotExist_ShouldReturnNotFound()
         {
             // Arrange
-            mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
-
             // moq data model to return an already existing user
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
 
@@ -103,10 +89,6 @@ namespace IdentityServer.API.Test.Controllers
         public async Task RegisterUser_UserExsits_ShouldReturnOk()
         {
             // Arrange
-            mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
-
             // moq data model to return an already existing user
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult(new User()));
 

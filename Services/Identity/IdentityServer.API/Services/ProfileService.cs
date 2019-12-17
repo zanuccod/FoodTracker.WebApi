@@ -24,8 +24,13 @@ namespace IdentityServer.API.Services
         {
             try
             {
+                if (context == null)
+                {
+                    throw new ArgumentNullException(nameof(context));
+                }
+
                 // depending on the scope accessing the user data.
-                if (context != null && !string.IsNullOrEmpty(context.Subject.Identity.Name))
+                if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                 {
                     //get user from db (in my case this is by email)
                     var user = await userDataModel.GetUser(context.Subject.Identity.Name).ConfigureAwait(true);
@@ -44,7 +49,7 @@ namespace IdentityServer.API.Services
                 else
                 {
                     // get subject from context (this was set ResourceOwnerPasswordValidator.ValidateAsync),
-                    var username = context?.Subject.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.PreferredUserName).Value;
+                    var username = context.Subject.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.PreferredUserName).Value;
 
                     if (!string.IsNullOrEmpty(username))
                     {
@@ -64,9 +69,8 @@ namespace IdentityServer.API.Services
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"{GetType().Name}: Erorr {ex}");
                 throw;
             }
         }
@@ -75,6 +79,11 @@ namespace IdentityServer.API.Services
         {
             try
             {
+                if (context == null)
+                {
+                    throw new ArgumentNullException(nameof(context));
+                }
+
                 // get subject from context (set in ResourceOwnerPasswordValidator.ValidateAsync),
                 var userName = context?.Subject.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.PreferredUserName).Value;
 
@@ -88,9 +97,8 @@ namespace IdentityServer.API.Services
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"{GetType().Name}: Erorr {ex}");
                 throw;
             }
         }

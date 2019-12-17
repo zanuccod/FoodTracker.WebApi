@@ -23,7 +23,12 @@ namespace IdentityServer.API.Services
         {
             try
             {
-                var user = await userDataModel.GetUser(context?.UserName).ConfigureAwait(true);
+                if (context == null)
+                {
+                    throw new ArgumentNullException(nameof(context));
+                }
+
+                var user = await userDataModel.GetUser(context.UserName).ConfigureAwait(true);
                 if (user != null)
                 {
                     if (user.Password.ToSha256() == context.Password)
@@ -47,9 +52,8 @@ namespace IdentityServer.API.Services
                 }
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "User does not exist.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"{GetType().Name}:Erorr {ex}");
                 throw;
             }
         }

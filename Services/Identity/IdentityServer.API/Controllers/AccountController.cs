@@ -12,7 +12,7 @@ namespace IdentityServer.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private IUserDataModel userDataModel;
+        private readonly IUserDataModel userDataModel;
 
         public AccountController(IUserDataModel userDataModel)
         {
@@ -26,7 +26,9 @@ namespace IdentityServer.API.Controllers
         public async Task<ActionResult> RegisterUser(User user)
         {
             if (user == null)
+            {
                 return BadRequest("User not specified");
+            }
 
             var userExist = await userDataModel.GetUser(user.Username).ConfigureAwait(true);
             if (userExist == null)
@@ -46,8 +48,9 @@ namespace IdentityServer.API.Controllers
         public async Task<ActionResult> DeleteUser(User user)
         {
             if (user == null)
+            {
                 return BadRequest("User not specified");
-
+            }
 
             var userExist = await userDataModel.GetUser(user.Username).ConfigureAwait(true);
             if (userExist != null)
