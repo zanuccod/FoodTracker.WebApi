@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <ProjectGuid>{daa175ee-e5b9-45f6-8ca7-c29cf1a49861}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +11,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Domains\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -25,5 +25,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="IdentityServer4" Version="3.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Services\UsersService.config" />
   </ItemGroup>
 </Project>

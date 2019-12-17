@@ -7,10 +7,12 @@ namespace IdentityServer.API.Domains
 {
     public sealed class User : IEquatable<User>
     {
+        [Required]
         [JsonProperty("username")]
         [Key]
         public string Username { get; set; }
 
+        [Required]
         [JsonProperty("password")]
         public string Password { get; set; }
 

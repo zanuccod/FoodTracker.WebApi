@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using IdentityServer.API.Domains;
 
-namespace IdentityServer.API.Test
+namespace IdentityServer.API.Test.Domains
 {
     [TestFixture]
     public class UserTest
@@ -14,6 +14,19 @@ namespace IdentityServer.API.Test
 
             // Act
             var result = user.Equals(null);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void EqualsToAnotherObjectType_ShouldReturnFalse()
+        {
+            // Arrange
+            var user = new User();
+
+            // Act
+            var result = user.Equals(new object());
 
             // Assert
             Assert.IsFalse(result);
@@ -34,7 +47,7 @@ namespace IdentityServer.API.Test
         }
 
         [Test]
-        public void EqualsToUserWithDifferentProperties_ShouldReturnTrue()
+        public void EqualsToUserWithDifferentProperties_ShouldReturnFalse()
         {
             // Arrange
             var user = new User { Username = "username_test", Password = "psw_test" };
