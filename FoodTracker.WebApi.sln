@@ -9,12 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{D7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.API", "Services\Identity\IdentityServer.API\IdentityServer.API.csproj", "{8562B267-0B30-4AA2-BC41-90E8F23CE315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.API.Test", "Services\Identity\IdentityServer.API.Test\IdentityServer.API.Test.csproj", "{0E93BEF7-FD8E-432C-A746-0315A03399B8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AF59DAD-A0AB-48F4-BDDB-5558AF539CE8}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
+		nlog.config = nlog.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.API.Test", "Services\Identity\IdentityServer.API.Test\IdentityServer.API.Test.csproj", "{B77D63EE-AB1F-4159-9912-52275CD283C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,15 +27,15 @@ Global
 		{8562B267-0B30-4AA2-BC41-90E8F23CE315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8562B267-0B30-4AA2-BC41-90E8F23CE315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8562B267-0B30-4AA2-BC41-90E8F23CE315}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E93BEF7-FD8E-432C-A746-0315A03399B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E93BEF7-FD8E-432C-A746-0315A03399B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E93BEF7-FD8E-432C-A746-0315A03399B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E93BEF7-FD8E-432C-A746-0315A03399B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B77D63EE-AB1F-4159-9912-52275CD283C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B77D63EE-AB1F-4159-9912-52275CD283C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B77D63EE-AB1F-4159-9912-52275CD283C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B77D63EE-AB1F-4159-9912-52275CD283C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D7C8C36D-BC83-4421-B31B-855153824EED} = {34401B69-908B-46F9-859B-0C311AFF697E}
 		{8562B267-0B30-4AA2-BC41-90E8F23CE315} = {D7C8C36D-BC83-4421-B31B-855153824EED}
-		{0E93BEF7-FD8E-432C-A746-0315A03399B8} = {D7C8C36D-BC83-4421-B31B-855153824EED}
+		{B77D63EE-AB1F-4159-9912-52275CD283C3} = {D7C8C36D-BC83-4421-B31B-855153824EED}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

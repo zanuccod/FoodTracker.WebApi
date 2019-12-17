@@ -7,16 +7,19 @@ using IdentityServer.API.Models;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using System;
+using NLog;
 
 namespace IdentityServer.API.Services
 {
     public class ProfileService : IProfileService
     {
         private readonly IUserDataModel userDataModel;
+        private readonly ILogger logger;
 
-        public ProfileService(IUserDataModel dataModel)
+        public ProfileService(IUserDataModel userDataModel, ILogger logger)
         {
-            userDataModel = dataModel;
+            this.userDataModel = userDataModel;
+            this.logger = logger;
         }
 
         // Get user profile date in terms of claims when calling /connect/userinfo
@@ -69,8 +72,9 @@ namespace IdentityServer.API.Services
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, "{0}", GetType().Name);
                 throw;
             }
         }
@@ -97,8 +101,9 @@ namespace IdentityServer.API.Services
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, "{0}", GetType().Name);
                 throw;
             }
         }

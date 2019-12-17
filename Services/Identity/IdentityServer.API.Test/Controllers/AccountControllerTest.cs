@@ -4,6 +4,7 @@ using IdentityServer.API.Domains;
 using IdentityServer.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NLog;
 using NUnit.Framework;
 
 namespace IdentityServer.API.Test.Controllers
@@ -13,6 +14,7 @@ namespace IdentityServer.API.Test.Controllers
     {
         Mock<IUserDataModel> mockUserDataModel;
         private IUserDataModel userDataModel;
+
         private AccountController controller;
 
         [SetUp]
@@ -20,7 +22,8 @@ namespace IdentityServer.API.Test.Controllers
         {
             mockUserDataModel = new Mock<IUserDataModel>();
             userDataModel = mockUserDataModel.Object;
-            controller = new AccountController(userDataModel);
+
+            controller = new AccountController(userDataModel, LogManager.GetCurrentClassLogger());
         }
 
         [Test]

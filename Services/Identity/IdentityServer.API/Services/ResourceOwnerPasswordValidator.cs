@@ -6,17 +6,19 @@ using IdentityModel;
 using IdentityServer.API.Models;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using NLog;
 
 namespace IdentityServer.API.Services
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        // repository to get user from db
         private readonly IUserDataModel userDataModel;
+        private readonly ILogger logger;
 
-        public ResourceOwnerPasswordValidator(IUserDataModel userDataModel)
+        public ResourceOwnerPasswordValidator(IUserDataModel userDataModel, ILogger logger)
         {
             this.userDataModel = userDataModel;
+            this.logger = logger;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
@@ -52,8 +54,9 @@ namespace IdentityServer.API.Services
                 }
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "User does not exist.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, "{0}", GetType().Name);
                 throw;
             }
         }
