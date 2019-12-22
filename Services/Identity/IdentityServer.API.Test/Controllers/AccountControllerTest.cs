@@ -3,40 +3,39 @@ using IdentityServer.API.Controllers;
 using IdentityServer.API.Domains;
 using IdentityServer.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NLog;
-using NUnit.Framework;
+using Xunit;
 
 namespace IdentityServer.API.Test.Controllers
 {
-    [TestFixture]
     public class AccountControllerTest
     {
-        Mock<IUserDataModel> mockUserDataModel;
-        private IUserDataModel userDataModel;
+        readonly Mock<IUserDataModel> mockUserDataModel;
+        private readonly IUserDataModel userDataModel;
 
         private AccountController controller;
 
-        [SetUp]
-        public void BeforeEachTest()
+        public AccountControllerTest()
         {
             mockUserDataModel = new Mock<IUserDataModel>();
             userDataModel = mockUserDataModel.Object;
 
-            controller = new AccountController(userDataModel, LogManager.GetCurrentClassLogger());
+            controller = new AccountController(userDataModel, new NullLogger<AccountController>());
         }
 
-        [Test]
+        [Fact]
         public async Task RegisterUser_NullUser_ShouldReturnBadRequest()
         {
             // Act
             var result = await controller.RegisterUser(null);
 
             // Assert
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
-        [Test]
+        [Fact]
         public async Task RegisterUser_AlreadyExistUser_ShouldReturnConflict()
         {
             // Arrange
@@ -47,10 +46,10 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.RegisterUser(new User());
 
             // Assert
-            Assert.IsInstanceOf<ConflictObjectResult>(result);
+            Assert.IsType<ConflictObjectResult>(result);
         }
 
-        [Test]
+        [Fact]
         public async Task RegisterUser_NewUser_ShouldReturnOk()
         {
             // Arrange
@@ -61,20 +60,20 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.RegisterUser(new User());
 
             // Assert
-            Assert.IsInstanceOf<OkObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
-        [Test]
+        [Fact]
         public async Task DeleteUser_NullUser_ShouldReturnBadRequest()
         {
             // Act
             var result = await controller.DeleteUser(null);
 
             // Assert
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
-        [Test]
+        [Fact]
         public async Task DeleteUser_UserNotExist_ShouldReturnNotFound()
         {
             // Arrange
@@ -82,13 +81,13 @@ namespace IdentityServer.API.Test.Controllers
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
 
             // Act
-            var result = await controller.DeleteUser(new User());
+            var result = await controller.DeleteUser("demo");
 
             // Assert
-            Assert.IsInstanceOf<NotFoundObjectResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
-        [Test]
+        [Fact]
         public async Task RegisterUser_UserExsits_ShouldReturnOk()
         {
             // Arrange
@@ -96,10 +95,10 @@ namespace IdentityServer.API.Test.Controllers
             mockUserDataModel.Setup(x => x.GetUser(It.IsAny<string>())).Returns(Task.FromResult(new User()));
 
             // Act
-            var result = await controller.DeleteUser(new User());
+            var result = await controller.DeleteUser("demo");
 
             // Assert
-            Assert.IsInstanceOf<OkObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }

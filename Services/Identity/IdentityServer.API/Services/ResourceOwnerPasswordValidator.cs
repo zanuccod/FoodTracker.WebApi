@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityServer.API.Domains;
 using IdentityServer.API.Models;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace IdentityServer.API.Services
@@ -13,9 +15,9 @@ namespace IdentityServer.API.Services
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IUserDataModel userDataModel;
-        private readonly ILogger logger;
+        private readonly ILogger<ResourceOwnerPasswordValidator> logger;
 
-        public ResourceOwnerPasswordValidator(IUserDataModel userDataModel, ILogger logger)
+        public ResourceOwnerPasswordValidator(IUserDataModel userDataModel, ILogger<ResourceOwnerPasswordValidator> logger)
         {
             this.userDataModel = userDataModel;
             this.logger = logger;
@@ -31,16 +33,17 @@ namespace IdentityServer.API.Services
                 }
 
                 var user = await userDataModel.GetUser(context.UserName).ConfigureAwait(true);
+
                 if (user != null)
                 {
-                    if (user.Password.ToSha256() == context.Password)
+                    if (user.Password == context.Password)
                     {
                         var claims = new List<Claim>
                         {
                             new Claim(JwtClaimTypes.PreferredUserName, user.Username ?? string.Empty),
                         };
 
-                        //set the result
+                        // set the result
                         context.Result = new GrantValidationResult(
                             subject: user.Username,
                             authenticationMethod: "custom",
@@ -56,7 +59,7 @@ namespace IdentityServer.API.Services
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "{0}", GetType().Name);
+                logger.LogError(ex, GetType().Name);
                 throw;
             }
         }

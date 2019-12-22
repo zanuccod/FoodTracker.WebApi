@@ -43,6 +43,6 @@ namespace IdentityServer.API
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Debug);
                 })
-                .UseNLog();  // NLog: Setup NLog for Dependency injection
+                .UseNLog();  // NLog: setup NLog for Dependency injection;
     }
 }

@@ -7,16 +7,17 @@ using IdentityServer.API.Models;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using System;
-using NLog;
+using IdentityServer.API.Domains;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer.API.Services
 {
     public class ProfileService : IProfileService
     {
         private readonly IUserDataModel userDataModel;
-        private readonly ILogger logger;
+        private readonly ILogger<ProfileService> logger;
 
-        public ProfileService(IUserDataModel userDataModel, ILogger logger)
+        public ProfileService(IUserDataModel userDataModel, ILogger<ProfileService> logger)
         {
             this.userDataModel = userDataModel;
             this.logger = logger;
@@ -35,9 +36,8 @@ namespace IdentityServer.API.Services
                 // depending on the scope accessing the user data.
                 if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                 {
-                    //get user from db (in my case this is by email)
+                    // get user from db (in my case this is by username)
                     var user = await userDataModel.GetUser(context.Subject.Identity.Name).ConfigureAwait(true);
-
                     if (user != null)
                     {
                         var claims = new List<Claim>
@@ -56,7 +56,7 @@ namespace IdentityServer.API.Services
 
                     if (!string.IsNullOrEmpty(username))
                     {
-                        // get user from db (find user by user id)
+                        // get user from db (find user by username)
                         var user = await userDataModel.GetUser(username).ConfigureAwait(true);
 
                         // issue the claims for the user
@@ -74,7 +74,7 @@ namespace IdentityServer.API.Services
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "{0}", GetType().Name);
+                logger.LogError(ex, GetType().Name);
                 throw;
             }
         }
@@ -103,7 +103,7 @@ namespace IdentityServer.API.Services
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "{0}", GetType().Name);
+                logger.LogError(ex, GetType().Name);
                 throw;
             }
         }

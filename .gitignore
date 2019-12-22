@@ -403,3 +403,4 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+Services/Identity/IdentityServer.API.Test/coverage.json

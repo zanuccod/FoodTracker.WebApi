@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using IdentityModel;
@@ -6,7 +7,8 @@ using IdentityServer.API.Domains;
 using IdentityServer.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
+using Microsoft.Extensions.Logging;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace IdentityServer.API.Controllers
 {
@@ -15,30 +17,44 @@ namespace IdentityServer.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserDataModel userDataModel;
-        private readonly ILogger logger;
+        //private readonly ILogger logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<AccountController> logger;
 
-        public AccountController(IUserDataModel userDataModel)
-        {
-            this.userDataModel = userDataModel;
-        }
-
-        public AccountController(IUserDataModel userDataModel, ILogger logger)
+        public AccountController(IUserDataModel userDataModel, ILogger<AccountController> logger)
         {
             this.userDataModel = userDataModel;
             this.logger = logger;
         }
 
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpGet("get-users")]
+        [Authorize(LocalApi.PolicyName)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<List<User>>> GetUsers()
+        {
+            try
+            {
+                var users = await userDataModel.GetUsersList().ConfigureAwait(true);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, GetType().Name);
+                throw;
+            }
+        }
+
+        [HttpPost("register-user")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<ActionResult> RegisterUser(User user)
         {
             try
             {
                 if (user == null)
                 {
-                    logger?.Debug($"Response: <{nameof(BadRequest)}>, given user is null");
+                    logger.LogDebug($"Response <{nameof(BadRequest)}>, given user is null");
                     return BadRequest("User not specified");
                 }
 
@@ -48,49 +64,50 @@ namespace IdentityServer.API.Controllers
                     user.Password = user.Password.ToSha256();
                     await userDataModel.InsertUser(user).ConfigureAwait(true);
 
-                    logger.Debug($"Response <{nameof(Ok)}>, User with username <{user.Username}> created");
+                    logger.LogDebug($"Response <{nameof(Ok)}>, User with username <{user.Username}> created");
                     return Ok("User created");
                 }
 
-                logger.Debug($"Response <{nameof(Conflict)}>>, User with username <{user.Username}> already exists");
+                logger.LogDebug($"Response <{nameof(Conflict)}>>, User with username <{user.Username}> already exists");
                 return Conflict("User already exist");
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "{0}", GetType().Name);
+                logger.LogError(ex, GetType().Name);
                 throw;
             }
         }
 
-        [HttpDelete]
-        [Authorize]
+        [HttpDelete("delete-user/{username}")]
+        [Authorize(LocalApi.PolicyName)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> DeleteUser(User user)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> DeleteUser(string username)
         {
             try
             {
-                if (user == null)
+                if (username == null)
                 {
-                    logger.Debug($"Response: <{nameof(BadRequest)}>, given user is null");
+                    logger.LogDebug($"Response: <{nameof(BadRequest)}>, given user is null");
                     return BadRequest("User not specified");
                 }
 
-                var userExist = await userDataModel.GetUser(user.Username).ConfigureAwait(true);
+                var userExist = await userDataModel.GetUser(username).ConfigureAwait(true);
                 if (userExist != null)
                 {
-                    await userDataModel.DeleteUser(user.Username).ConfigureAwait(true);
+                    await userDataModel.DeleteUser(username).ConfigureAwait(true);
 
-                    logger.Debug($"Response: <{nameof(Ok)}>, user with username <{user.Username}> was deleted");
+                    logger.LogDebug($"Response: <{nameof(Ok)}>, user with username <{username}> was deleted");
                     return Ok("User deleted");
                 }
 
-                logger.Debug($"Response <{nameof(NotFound)}>>, User with username <{user.Username}> not exists");
+                logger.LogDebug($"Response <{nameof(NotFound)}>>, User with username <{username}> not exists");
                 return NotFound("User not exist");
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "{0}", GetType().Name);
+                logger.LogError(ex, GetType().Name);
                 throw;
             }
         }
