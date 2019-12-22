@@ -12,15 +12,13 @@ namespace IdentityServer.API.Test.Controllers
 {
     public class AccountControllerTest
     {
-        readonly Mock<IUserDataModel> mockUserDataModel;
-        private readonly IUserDataModel userDataModel;
-
-        private AccountController controller;
+        private readonly Mock<IUserDataModel> mockUserDataModel;
+        private readonly AccountController controller;
 
         public AccountControllerTest()
         {
             mockUserDataModel = new Mock<IUserDataModel>();
-            userDataModel = mockUserDataModel.Object;
+            var userDataModel = mockUserDataModel.Object;
 
             controller = new AccountController(userDataModel, new NullLogger<AccountController>());
         }

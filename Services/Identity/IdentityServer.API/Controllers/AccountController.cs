@@ -17,7 +17,6 @@ namespace IdentityServer.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserDataModel userDataModel;
-        //private readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly ILogger<AccountController> logger;
 
         public AccountController(IUserDataModel userDataModel, ILogger<AccountController> logger)

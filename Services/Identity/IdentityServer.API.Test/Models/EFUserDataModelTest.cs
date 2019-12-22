@@ -25,7 +25,7 @@ namespace IdentityServer.API.Test.Models
         public async Task InsertUser()
         {
             // Arrange
-            var item = new User() { Username = "username_test", Password = "password_test" };
+            var item = new User { Username = "username_test", Password = "password_test" };
 
             // Act
             await dataModel.InsertUser(item);
@@ -41,7 +41,7 @@ namespace IdentityServer.API.Test.Models
             var itemCount = 10;
             for (var i = 0; i < itemCount; i++)
             {
-                await dataModel.InsertUser(new User() { Username = "username_test_" + i, Password = "password_test" });
+                await dataModel.InsertUser(new User { Username = "username_test_" + i, Password = "password_test" });
             }
 
             // Act
@@ -55,7 +55,7 @@ namespace IdentityServer.API.Test.Models
         public async Task GetUser()
         {
             // Arrange
-            var item = new User() { Username = "username_test", Password = "password_test" };
+            var item = new User { Username = "username_test", Password = "password_test" };
             await dataModel.InsertUser(item);
 
             // Act
@@ -71,7 +71,7 @@ namespace IdentityServer.API.Test.Models
             // Arrange
             const string newPassword = "password_test_1";
 
-            var item = new User() { Username = "username_test", Password = "password_test" };
+            var item = new User { Username = "username_test", Password = "password_test" };
             await dataModel.InsertUser(item);
 
             // Act
@@ -88,7 +88,7 @@ namespace IdentityServer.API.Test.Models
         public async Task DeleteUser()
         {
             // Arrange
-            var item = new User() { Username = "username_test", Password = "password_test" };
+            var item = new User { Username = "username_test", Password = "password_test" };
             await dataModel.InsertUser(item);
 
             // Act
