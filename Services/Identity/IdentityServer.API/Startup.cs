@@ -35,7 +35,7 @@ namespace IdentityServer.API
                     {
                         new IdentityResources.OpenId()
                     })
-                .AddInMemoryApiResources(API.Configuration.Resources.GetApiResources())
+                .AddInMemoryApiResources(ApiResources.GetApiResources())
                 .AddInMemoryClients(Clients.Get())
                 .AddJwtBearerClientAuthentication()
                 .AddProfileService<ProfileService>();

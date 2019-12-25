@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
-using IdentityServer.API.Domains;
 using IdentityServer.API.Models;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.Extensions.Logging;
-using NLog;
 
 namespace IdentityServer.API.Services
 {

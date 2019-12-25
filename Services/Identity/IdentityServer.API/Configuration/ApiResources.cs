@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IdentityServer4.Models;
 using static IdentityServer4.IdentityServerConstants;
 
 namespace IdentityServer.API.Configuration
 {
-    public static class Resources
+    public static class ApiResources
     {
         public static IEnumerable<ApiResource> GetApiResources()
         {
