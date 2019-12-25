@@ -5,11 +5,11 @@ using IdentityServer.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using NLog;
-using Xunit;
+using NUnit.Framework;
 
 namespace IdentityServer.API.Test.Controllers
 {
+    [TestFixture]
     public class AccountControllerTest
     {
         private readonly Mock<IUserDataModel> mockUserDataModel;
@@ -23,17 +23,17 @@ namespace IdentityServer.API.Test.Controllers
             controller = new AccountController(userDataModel, new NullLogger<AccountController>());
         }
 
-        [Fact]
+        [Test]
         public async Task RegisterUser_NullUser_ShouldReturnBadRequest()
         {
             // Act
             var result = await controller.RegisterUser(null);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.AreEqual(typeof(BadRequestObjectResult), result.GetType());
         }
 
-        [Fact]
+        [Test]
         public async Task RegisterUser_AlreadyExistUser_ShouldReturnConflict()
         {
             // Arrange
@@ -44,10 +44,10 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.RegisterUser(new User());
 
             // Assert
-            Assert.IsType<ConflictObjectResult>(result);
+            Assert.AreEqual(typeof(ConflictObjectResult), result.GetType());
         }
 
-        [Fact]
+        [Test]
         public async Task RegisterUser_NewUser_ShouldReturnOk()
         {
             // Arrange
@@ -58,20 +58,20 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.RegisterUser(new User());
 
             // Assert
-            Assert.IsType<OkObjectResult>(result);
+            Assert.AreEqual(typeof(OkObjectResult), result.GetType());
         }
 
-        [Fact]
+        [Test]
         public async Task DeleteUser_NullUser_ShouldReturnBadRequest()
         {
             // Act
             var result = await controller.DeleteUser(null);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.AreEqual(typeof(BadRequestObjectResult), result.GetType());
         }
 
-        [Fact]
+        [Test]
         public async Task DeleteUser_UserNotExist_ShouldReturnNotFound()
         {
             // Arrange
@@ -82,10 +82,10 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.DeleteUser("demo");
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.AreEqual(typeof(NotFoundObjectResult), result.GetType());
         }
 
-        [Fact]
+        [Test]
         public async Task RegisterUser_UserExsits_ShouldReturnOk()
         {
             // Arrange
@@ -96,7 +96,7 @@ namespace IdentityServer.API.Test.Controllers
             var result = await controller.DeleteUser("demo");
 
             // Assert
-            Assert.IsType<OkObjectResult>(result);
+            Assert.AreEqual(typeof(OkObjectResult), result.GetType());
         }
     }
 }
