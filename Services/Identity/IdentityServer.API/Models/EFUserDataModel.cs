@@ -17,6 +17,7 @@ namespace IdentityServer.API.Models
         }
 
         public EFUserDataModel(DbContextOptions options)
+            :base(options)
         {
             this.options = options;
         }
