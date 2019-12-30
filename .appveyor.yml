@@ -5,6 +5,11 @@ before_build:
 build_script:
   - dotnet restore
   - dotnet build FoodTracker.WebApi.sln
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:CoverletOutput=../../../TestResults/TestResult.json
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../../TestResults/TestResult.xml /p:MergeWith=../../../TestResults/TestResult.json
   
+  - cd ./Services/Identity/IdentityServer.API.Test
+  - nuget install Appveyor.TestLogger -Version 2.0.0
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test --test-adapter-path:. --logger:Appveyor ../../../TestResults
+
+  - cd ./Services/Identity/IdentityServer.API.IntegrationTest
+  - nuget install Appveyor.TestLogger -Version 2.0.0
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest --test-adapter-path:. --logger:Appveyor ../../../TestResults
