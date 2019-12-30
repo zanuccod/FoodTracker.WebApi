@@ -28,7 +28,7 @@ namespace IdentityServer.API.Test.Models
             var item = new User { Username = "username_test", Password = "password_test" };
 
             // Act
-            await dataModel.InsertUser(item);
+            await dataModel.InsertUser(item).ConfigureAwait(true);
 
             // Assert
             Assert.AreEqual(1, dataModel.GetUsersList().Result.Count);
@@ -45,7 +45,7 @@ namespace IdentityServer.API.Test.Models
             }
 
             // Act
-            var items = await dataModel.GetUsersList();
+            var items = await dataModel.GetUsersList().ConfigureAwait(true);
 
             // Assert
             Assert.AreEqual(itemCount, items.Count);
@@ -59,7 +59,7 @@ namespace IdentityServer.API.Test.Models
             await dataModel.InsertUser(item);
 
             // Act
-            var item2 = await dataModel.GetUser(item.Username);
+            var item2 = await dataModel.GetUser(item.Username).ConfigureAwait(true);
 
             // Assert
             Assert.True(item.Equals(item2));
@@ -78,7 +78,7 @@ namespace IdentityServer.API.Test.Models
             item.Password = newPassword;
             await dataModel.UpdateUser(item);
 
-            var item2 = await dataModel.GetUser(item.Username);
+            var item2 = await dataModel.GetUser(item.Username).ConfigureAwait(true);
 
             // Assert
             Assert.AreEqual(newPassword, item2.Password);
@@ -92,7 +92,7 @@ namespace IdentityServer.API.Test.Models
             await dataModel.InsertUser(item);
 
             // Act
-            await dataModel.DeleteUser(item.Username);
+            await dataModel.DeleteUser(item.Username).ConfigureAwait(true);
 
             // Assert
             Assert.AreEqual(0, dataModel.GetUsersList().Result.Count);
