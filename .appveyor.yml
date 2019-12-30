@@ -10,5 +10,5 @@ test:
   # only assemblies to test
   assemblies:
     only:
-      - /Services/Identity/IdentityServer.API.Test/bin/Release/netcoreapp3.0/IdentityServer.API.Test.dll
-      - /Services/Identity/IdentityServer.API.IntegrationTest/bin/Release/netcoreapp3.0/IdentityServer.API.IntegrationTest.dll
+      - ./Services/Identity/IdentityServer.API.Test/bin/Release/netcoreapp3.0/IdentityServer.API.Test.dll
+      - ./Services/Identity/IdentityServer.API.IntegrationTest/bin/Release/netcoreapp3.0/IdentityServer.API.IntegrationTest.dll
