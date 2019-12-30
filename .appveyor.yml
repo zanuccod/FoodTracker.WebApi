@@ -12,5 +12,4 @@ build_script:
 
   - cd ..
   - cd IdentityServer.API.IntegrationTest
-  - nuget install Appveyor.TestLogger -Version 2.0.0
-  - dotnet test -c Release --test-adapter-path:. --logger:Appveyor
+  - dotnet test -c Release
