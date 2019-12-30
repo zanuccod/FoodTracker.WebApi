@@ -5,11 +5,11 @@ before_build:
 build_script:
   - dotnet restore
   - dotnet build FoodTracker.WebApi.sln
-  
+
   - cd ./Services/Identity/IdentityServer.API.Test
   - nuget install Appveyor.TestLogger -Version 2.0.0
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test --test-adapter-path:. --logger:Appveyor ../../../TestResults
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test --test-adapter-path:. --logger:Appveyor
 
   - cd ./Services/Identity/IdentityServer.API.IntegrationTest
   - nuget install Appveyor.TestLogger -Version 2.0.0
-  - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest --test-adapter-path:. --logger:Appveyor ../../../TestResults
+  - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest --test-adapter-path:. --logger:Appveyor
