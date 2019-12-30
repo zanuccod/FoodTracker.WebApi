@@ -8,8 +8,10 @@ build_script:
 
   - cd ./Services/Identity/IdentityServer.API.Test
   - nuget install Appveyor.TestLogger -Version 2.0.0
+  - cd ./
   - dotnet test -c Release ./Services/Identity/IdentityServer.API.Test --test-adapter-path:. --logger:Appveyor
 
   - cd ./Services/Identity/IdentityServer.API.IntegrationTest
   - nuget install Appveyor.TestLogger -Version 2.0.0
+  - cd ./
   - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest --test-adapter-path:. --logger:Appveyor
