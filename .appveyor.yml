@@ -9,5 +9,8 @@ build_script:
   - dotnet test -c Release ./Services/Identity/IdentityServer.API.IntegrationTest /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../../TestResults/TestResult.xml /p:MergeWith=../../../TestResults/TestResult.json
   
 test:
-  - /Services/Identity/IdentityServer.API.Test/bin/Release/netcoreapp3.0/IdentityServer.API.Test.dll
-  - /Services/Identity/IdentityServer.API.IntegrationTest/bin/Release/netcoreapp3.0/IdentityServer.API.IntegrationTest.dll
+  # only assemblies to test
+  assemblies:
+    only:
+      - /Services/Identity/IdentityServer.API.Test/bin/Release/netcoreapp3.0/IdentityServer.API.Test.dll
+      - /Services/Identity/IdentityServer.API.IntegrationTest/bin/Release/netcoreapp3.0/IdentityServer.API.IntegrationTest.dll
